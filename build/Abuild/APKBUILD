@@ -1,0 +1,44 @@
+# Alpine-Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Aaron Bassett <abassett@blackberry.com>
+pkgname=giflib
+pkgver=5.2.2
+pkgrel=0
+pkgdesc="A library for reading and writing GIF images"
+url="https://sourceforge.net/projects/giflib/"
+arch="all"
+license="MIT"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-utils"
+makedepends="xmlto"
+source="https://downloads.sourceforge.net/sourceforge/giflib/giflib-$pkgver.tar.gz
+    CVE-2021-40633.patch
+    CVE-2025-31344.patch
+    correct-document-page-install.patch
+    dont-build-html-pages-images.patch
+    "
+
+build() {
+    make CFLAGS="$CFLAGS -fPIC"
+}
+
+check() {
+    make check || msg "giffixed.ico due to our \"head\" is weird"
+}
+
+package() {
+    make DESTDIR="$pkgdir" PREFIX=/usr install
+}
+
+utils() {
+    pkgdesc="Programs for manipulating GIF format image files"
+
+    amove usr/bin
+}
+
+
+sha512sums="
+0865ab2b1904fa14640c655fdb14bb54244ad18a66e358565c00287875d00912343f9be8bfac7658cc0146200d626f7ec9160d7a339f20ba3be6b9941d73975f  giflib-5.2.2.tar.gz
+ea2cd0b563da945d78cc4d4ade899f1ca82e397b693754de5bf480d0366bdd17e109c91ab204784e75f532d6b0d0e85529aa9dcfff71787159107a4946a75fa4  CVE-2021-40633.patch
+85a478150fadeab085e5adb750168fd69a7473478d06ded999977b1c0ce5546dd9aed884fc46d7b8afc1513bf648b0eb44846ac676079b1d4aa5bb0e416c2a0f  CVE-2025-31344.patch
+49d6924db041b20e969b1b41ac6587001bdbf2e6117e58249f0e548f385b0494f0e907ed26c6415e77b3ebb6474fcc154c9cfdeefdae8ac385fb4f83724dff46  correct-document-page-install.patch
+a7ee5e838697cf2e10262e24289fda8515fbb85cff8b3f89b60915e12bc08544009f8e91bd4f969473f0df0cb6b2f8d4ea3bed8dadd7f0df54067daf0ee1922a  dont-build-html-pages-images.patch
+"
