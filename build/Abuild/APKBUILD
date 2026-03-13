@@ -2,7 +2,7 @@
 # Maintainer: Aaron Bassett <abassett@blackberry.com>
 pkgname=giflib
 pkgver=5.2.2
-pkgrel=0
+pkgrel=${pkgrel:-0}
 pkgdesc="A library for reading and writing GIF images"
 url="https://sourceforge.net/projects/giflib/"
 arch="all"
@@ -35,6 +35,7 @@ utils() {
 }
 
 
+options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 0865ab2b1904fa14640c655fdb14bb54244ad18a66e358565c00287875d00912343f9be8bfac7658cc0146200d626f7ec9160d7a339f20ba3be6b9941d73975f  giflib-5.2.2.tar.gz
 ea2cd0b563da945d78cc4d4ade899f1ca82e397b693754de5bf480d0366bdd17e109c91ab204784e75f532d6b0d0e85529aa9dcfff71787159107a4946a75fa4  CVE-2021-40633.patch
